@@ -1,0 +1,189 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #e4e9ff;
+}
+
+.container {
+  width: 450px;
+  height: fit-content;
+  color: #ffffff;
+  padding: 1rem;
+  border-radius: 15px;
+  position: relative;
+}
+/* ===== header ===== */
+header {
+  width: 100%;
+  height: 60px;
+  background-color: #b07eec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 20px 0px rgba(128, 128, 128, 0.3);
+  margin-bottom: 20px;
+}
+header h1 {
+  font-size: 1.5rem;
+  display: inline-block;
+  font-weight: 500;
+}
+/* ======== task .container ========= */
+.Task_container {
+  padding: 1rem 1.3rem;
+  width: 100%;
+  height: 25rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #ffffff;
+  scroll-behavior: smooth;
+  scrollbar-width: 0;
+}
+.Task_container .tasks_list {
+  width: 100%;
+  height: 100%;
+}
+.tasks_list .task {
+  width: 100%;
+  margin-bottom: 10px;
+  height: 40px;
+  padding: 10px;
+  color: #1b1b1b;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  cursor: pointer;
+}
+.tasks_list .task:hover {
+  box-shadow: 0 4px 1px -2px rgba(211, 211, 211, 0.2);
+}
+.tasks_list .task .checkbox {
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  border: 2px solid #d4d4d4;
+}
+.tasks_list .task .checkbox .check_icon {
+  width: 100%;
+  height: 100%;
+  color: transparent;
+}
+.tasks_list .task.completed .checkbox .check_icon {
+  color: #b07eec;
+}
+.tasks_list .task .text {
+  margin-left: 10px;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+.tasks_list .task.completed .text {
+  text-decoration: line-through;
+  color: #868686;
+}
+.tasks_list .task .controls {
+  margin-left: auto;
+  opacity: 0;
+  transition: all ease-in-out 0.3s;
+}
+.tasks_list .task:hover .controls {
+  opacity: 1;
+}
+.tasks_list .task .controls .btn {
+  color: #868686;
+  font-size: 1.4rem;
+  margin: 0 5px;
+}
+.tasks_list .task.completed .controls .btn:first-child {
+  display: none;
+}
+/* ==== task add popup ==== */
+.task_popup {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 50;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  background-color: rgba(236, 236, 236, 0.1);
+  transition: all 0.5s;
+}
+.task_popup.active {
+  display: flex;
+}
+.task_popup form {
+  width: 400px;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 20px 0px rgba(63, 63, 63, 0.4);
+  position: relative;
+}
+.task_popup form .input[type="text"] {
+  box-sizing: border-box;
+  font-size: 1.1rem;
+  padding: 0.7rem 1rem;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  width: 100%;
+  border: 1px solid gainsboro;
+}
+.task_popup .btn {
+  all: unset;
+  margin-top: 2rem;
+  border-radius: 15px;
+  padding: 10px 15px;
+  width: 120px;
+  background-color: #b07eec;
+  text-align: center;
+  font-size: 1.3rem;
+}
+.task_popup .closs_btn {
+  position: absolute;
+  top: -12px;
+  right: -13px;
+  font-size: 2.3rem;
+  color: #fff;
+  border-radius: 100%;
+  background-color: #b07eec;
+  border: 1px solid gainsboro;
+}
+.task_popup .closs_btn:hover {
+  background-color: #9446f3;
+}
+.popup_btn {
+  all: unset;
+  background-color: #b07eec;
+  padding: 12px;
+  font-size: 1.2rem;
+  border-radius: 15px;
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 2px 2px 20px 0px rgba(63, 63, 63, 0.4);
+}
+
+
+@media (max-width:480px){
+  .container{
+    width: 95vw;
+  }
+  .task_popup form{
+    width: 90vw;
+  }
+}

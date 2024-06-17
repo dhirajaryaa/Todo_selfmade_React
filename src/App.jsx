@@ -1,0 +1,110 @@
+import { useState, React, useEffect } from "react";
+import "./App.css";
+import Header from "./components/Header";
+import TaskContainer from "./components/TaskContainer";
+import TaskAdd from "./components/TaskAdd";
+
+const App = () => {
+  const [taskData, setTaskData] = useState({
+    id: "",
+    task: "",
+    completed: false,
+  });
+  const [task, setTask] = useState([]);
+  const [isActive, setIsActive] = useState(false);
+  const [btnName, setBtnName] = useState();
+  const [isEdit, setIsEdit] = useState(false);
+
+  // input change value store
+  const handleChanges = (e) => {
+    const { name, value } = e.target;
+    const genId = !isEdit ? new Date().getTime().toString():taskData.id;
+    setTaskData((prev) => {
+      return { ...prev,id:genId, [name]: value };
+    });
+  };
+
+  // close popup
+  const clossForm = () => {
+    setIsActive((prev) => !prev);
+    setBtnName("Add");
+  };
+
+  // added task
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (taskData.task !== "" && isEdit) {
+      const updatedTask = task.map((value) => {
+      return value.id === taskData.id
+        ? { ...value, task: taskData.task }
+        : value;
+    });
+      setTask(updatedTask);
+      setIsEdit((prev) => !prev);
+    } else if (taskData.task !== "" && !isEdit) {
+
+      setTask((prev) => {
+        return [...prev, taskData];
+      });
+    }    
+    setTaskData({
+      id: "",
+      task: "",
+      completed: false,
+    })
+    clossForm();
+  };
+
+  // delate task
+  const removeTask = (id) => {
+    const updatedTask = task.filter((value) => value.id !== id);
+    setTask(updatedTask);
+    setTaskData((prev) => ({ ...prev,id:"", task: "" }));
+  };
+
+  //edit task
+  const editTask = (value) => {
+    clossForm();
+    setIsEdit((prev) => !prev);
+    setBtnName("Edit");
+    setTaskData((prev) => ({ ...prev,id:value.id,task: value.task }));
+  };
+
+  // task completed checked or unchecked
+  const taskCompleted = (id) => {
+    const updatedTask = task.map((value) => {
+      return value.id === id
+        ? { ...value, completed: !value.completed }
+        : value;
+    });
+    setTask(updatedTask);
+  };
+
+  // useEffect(()=>{
+  //   handleSubmit
+  // },[task])
+
+  return (
+    <div className="container">
+      <TaskAdd
+        btnName={btnName}
+        isActive={isActive}
+        clossForm={clossForm}
+        handleSubmit={handleSubmit}
+        handleChanges={handleChanges}
+        taskData={taskData}
+      />
+      <Header />
+      <TaskContainer
+        clossForm={clossForm}
+        taskCompleted={taskCompleted}
+        task={task}
+        removeTask={removeTask}
+        editTask={editTask}
+      />
+    </div>
+  );
+};
+
+export default App;

@@ -1,9 +1,8 @@
-import { useState, React, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import TaskContainer from "./components/TaskContainer";
 import TaskAdd from "./components/TaskAdd";
-
 
 const App = () => {
   const [taskData, setTaskData] = useState({
@@ -13,7 +12,7 @@ const App = () => {
   });
   const [task, setTask] = useState([]);
   const [isActive, setIsActive] = useState(false);
-  const [btnName, setBtnName] = useState();
+  const [btnName, setBtnName] = useState("Add");
   const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
@@ -30,13 +29,11 @@ const App = () => {
   const handleChanges = (e) => {
     const { name, value } = e.target;
     const genId = !isEdit ? new Date().getTime().toString() : taskData.id;
-    setTaskData(() => {
-      return { ...taskData, id: genId, [name]: value };
-    });
+    setTaskData({ ...taskData, id: genId, [name]: value });
   };
 
   // close popup
-  const clossForm = () => {
+  const closeForm = () => {
     setIsActive((prev) => !prev);
     setBtnName("Add");
   };
@@ -46,49 +43,41 @@ const App = () => {
     e.preventDefault();
 
     if (taskData.task !== "" && isEdit) {
-      const updatedTask = task.map((value) => {
-        return value.id === taskData.id
-          ? { ...value, task: taskData.task }
-          : value;
-      });
+      const updatedTask = task.map((value) =>
+        value.id === taskData.id ? { ...value, task: taskData.task } : value
+      );
       setTask(updatedTask);
-      setIsEdit((prev) => !prev);
+      setIsEdit(false);
     } else if (taskData.task !== "" && !isEdit) {
-      
-      setTask(() => {
-        return [...task, taskData];
-      });
+      setTask([...task, taskData]);
     }
     setTaskData({
       id: "",
       task: "",
       completed: false,
     });
-    clossForm();
+    closeForm();
   };
 
-  // delate task
+  // delete task
   const removeTask = (id) => {
     const updatedTask = task.filter((value) => value.id !== id);
     setTask(updatedTask);
-    setTaskData(() => ({ ...taskData, id: "", task: "" }));
   };
 
-  //edit task
+  // edit task
   const editTask = (value) => {
-    clossForm();
-    setIsEdit((prev) => !prev);
+    closeForm();
+    setIsEdit(true);
     setBtnName("Edit");
-    setTaskData(() => ({ ...taskData, id: value.id, task: value.task }));
+    setTaskData({ id: value.id, task: value.task, completed: value.completed });
   };
 
   // task completed checked or unchecked
   const taskCompleted = (id) => {
-    const updatedTask = task.map((value) => {
-      return value.id === id
-        ? { ...value, completed: !value.completed }
-        : value;
-    });
+    const updatedTask = task.map((value) =>
+      value.id === id ? { ...value, completed: !value.completed } : value
+    );
     setTask(updatedTask);
   };
 
@@ -97,14 +86,14 @@ const App = () => {
       <TaskAdd
         btnName={btnName}
         isActive={isActive}
-        clossForm={clossForm}
+        closeForm={closeForm}
         handleSubmit={handleSubmit}
         handleChanges={handleChanges}
         taskData={taskData}
       />
       <Header />
       <TaskContainer
-        clossForm={clossForm}
+        closeForm={closeForm}
         taskCompleted={taskCompleted}
         task={task}
         removeTask={removeTask}

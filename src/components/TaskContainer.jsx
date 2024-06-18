@@ -2,11 +2,11 @@ import React from "react";
 
 import TaskItem from "./TaskItem";
 
-function TaskContainer({ clossForm, completed, taskCompleted, task,removeTask,editTask }) {
+function TaskContainer({ clossForm, taskCompleted, task,removeTask,editTask }) {
   return (
     <main className="Task_container">
       <div className="tasks_list">
-        {task.map((todo) => {
+        {task && task.map((todo) => {
           return (
             <TaskItem
               taskCompleted={taskCompleted}

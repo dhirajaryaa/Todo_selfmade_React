@@ -13,7 +13,7 @@ function TaskAdd({ btnName, isActive, clossForm, handleChanges,taskData,handleSu
           className="input"
           name="task"
           value={taskData.task}
-          placeholder={`Enter your task ...`}
+          placeholder="Enter Task ....."
           onChange={handleChanges}
         />
         <button type="submit" className="btn">

@@ -25,8 +25,8 @@ const App = () => {
   const handleChanges = (e) => {
     const { name, value } = e.target;
     const genId = !isEdit ? new Date().getTime().toString() : taskData.id;
-    setTaskData((prev) => {
-      return { ...prev, id: genId, [name]: value };
+    setTaskData(() => {
+      return { ...taskData, id: genId, [name]: value };
     });
   };
 
@@ -49,8 +49,8 @@ const App = () => {
       setTask(updatedTask);
       setIsEdit((prev) => !prev);
     } else if (taskData.task !== "" && !isEdit) {
-      setTask((prev) => {
-        return [...prev, taskData];
+      setTask(() => {
+        return [...task, taskData];
       });
     }
     setTaskData({
@@ -65,7 +65,7 @@ const App = () => {
   const removeTask = (id) => {
     const updatedTask = task.filter((value) => value.id !== id);
     setTask(updatedTask);
-    setTaskData((prev) => ({ ...prev, id: "", task: "" }));
+    setTaskData(() => ({ ...taskData, id: "", task: "" }));
   };
 
   //edit task
@@ -73,7 +73,7 @@ const App = () => {
     clossForm();
     setIsEdit((prev) => !prev);
     setBtnName("Edit");
-    setTaskData((prev) => ({ ...prev, id: value.id, task: value.task }));
+    setTaskData(() => ({ ...taskData, id: value.id, task: value.task }));
   };
 
   // task completed checked or unchecked

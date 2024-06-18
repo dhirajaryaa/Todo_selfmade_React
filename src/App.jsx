@@ -4,8 +4,6 @@ import Header from "./components/Header";
 import TaskContainer from "./components/TaskContainer";
 import TaskAdd from "./components/TaskAdd";
 
-const oldTasks = localStorage.getItem("tasks");
-const parsedTasks = oldTasks ? JSON.parse(oldTasks) : [];
 
 const App = () => {
   const [taskData, setTaskData] = useState({
@@ -13,10 +11,16 @@ const App = () => {
     task: "",
     completed: false,
   });
-  const [task, setTask] = useState(JSON.parse(parsedTasks));
+  const [task, setTask] = useState([]);
   const [isActive, setIsActive] = useState(false);
   const [btnName, setBtnName] = useState();
   const [isEdit, setIsEdit] = useState(false);
+
+  useEffect(() => {
+    const oldTasks = localStorage.getItem("tasks");
+    const parsedTasks = oldTasks ? JSON.parse(oldTasks) : [];
+    setTask(parsedTasks);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(task));

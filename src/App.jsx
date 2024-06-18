@@ -4,23 +4,29 @@ import Header from "./components/Header";
 import TaskContainer from "./components/TaskContainer";
 import TaskAdd from "./components/TaskAdd";
 
+const oldTasks = localStorage.getItem("tasks");
+
 const App = () => {
   const [taskData, setTaskData] = useState({
     id: "",
     task: "",
     completed: false,
   });
-  const [task, setTask] = useState([]);
+  const [task, setTask] = useState(JSON.parse(oldTasks));
   const [isActive, setIsActive] = useState(false);
   const [btnName, setBtnName] = useState();
   const [isEdit, setIsEdit] = useState(false);
 
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(task));
+  }, [task]);
+
   // input change value store
   const handleChanges = (e) => {
     const { name, value } = e.target;
-    const genId = !isEdit ? new Date().getTime().toString():taskData.id;
+    const genId = !isEdit ? new Date().getTime().toString() : taskData.id;
     setTaskData((prev) => {
-      return { ...prev,id:genId, [name]: value };
+      return { ...prev, id: genId, [name]: value };
     });
   };
 
@@ -36,23 +42,22 @@ const App = () => {
 
     if (taskData.task !== "" && isEdit) {
       const updatedTask = task.map((value) => {
-      return value.id === taskData.id
-        ? { ...value, task: taskData.task }
-        : value;
-    });
+        return value.id === taskData.id
+          ? { ...value, task: taskData.task }
+          : value;
+      });
       setTask(updatedTask);
       setIsEdit((prev) => !prev);
     } else if (taskData.task !== "" && !isEdit) {
-
       setTask((prev) => {
         return [...prev, taskData];
       });
-    }    
+    }
     setTaskData({
       id: "",
       task: "",
       completed: false,
-    })
+    });
     clossForm();
   };
 
@@ -60,7 +65,7 @@ const App = () => {
   const removeTask = (id) => {
     const updatedTask = task.filter((value) => value.id !== id);
     setTask(updatedTask);
-    setTaskData((prev) => ({ ...prev,id:"", task: "" }));
+    setTaskData((prev) => ({ ...prev, id: "", task: "" }));
   };
 
   //edit task
@@ -68,7 +73,7 @@ const App = () => {
     clossForm();
     setIsEdit((prev) => !prev);
     setBtnName("Edit");
-    setTaskData((prev) => ({ ...prev,id:value.id,task: value.task }));
+    setTaskData((prev) => ({ ...prev, id: value.id, task: value.task }));
   };
 
   // task completed checked or unchecked
@@ -80,10 +85,6 @@ const App = () => {
     });
     setTask(updatedTask);
   };
-
-  // useEffect(()=>{
-  //   handleSubmit
-  // },[task])
 
   return (
     <div className="container">

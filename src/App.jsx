@@ -32,8 +32,8 @@ const App = () => {
     setTaskData({ ...taskData, id: genId, [name]: value });
   };
 
-  // close popup
-  const closeForm = () => {
+  // closs popup
+  const clossForm = () => {
     setIsActive((prev) => !prev);
     setBtnName("Add");
   };
@@ -56,7 +56,7 @@ const App = () => {
       task: "",
       completed: false,
     });
-    closeForm();
+    clossForm();
   };
 
   // delete task
@@ -67,7 +67,7 @@ const App = () => {
 
   // edit task
   const editTask = (value) => {
-    closeForm();
+    clossForm();
     setIsEdit(true);
     setBtnName("Edit");
     setTaskData({ id: value.id, task: value.task, completed: value.completed });
@@ -86,14 +86,14 @@ const App = () => {
       <TaskAdd
         btnName={btnName}
         isActive={isActive}
-        closeForm={closeForm}
+        clossForm={clossForm}
         handleSubmit={handleSubmit}
         handleChanges={handleChanges}
         taskData={taskData}
       />
       <Header />
       <TaskContainer
-        closeForm={closeForm}
+        clossForm={clossForm}
         taskCompleted={taskCompleted}
         task={task}
         removeTask={removeTask}
